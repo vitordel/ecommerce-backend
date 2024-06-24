@@ -1,10 +1,13 @@
-const { DataTypes, UUIDV4 } = require('sequelize');
+const {Model, DataTypes} = require('sequelize');
 const sequelize = require('../database');
 
-const Order = sequelize.define('Order', {
+class Order extends Model {}
+
+Order.init(
+    {
         orderId: {
             type: DataTypes.UUID,
-            defaultValue: UUIDV4,
+            defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
             allowNull: false,
         },
@@ -16,7 +19,13 @@ const Order = sequelize.define('Order', {
             type: DataTypes.DATE,
             allowNull: false,
         }
-    }  
+    },
+    { 
+        sequelize,
+        modelName: 'order',
+        tableName: 'orders',
+        underscored: true
+    }
 );
 
 module.exports = Order;

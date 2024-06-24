@@ -9,11 +9,7 @@ const sequelize = new Sequelize(
         host: config.host,
         port: config.port,
         dialect: config.dialect,
-        logging: false,
-        define: {
-            paranoid: true,
-            log: false,
-        },
+        logging: console.log,
     },
 );
 

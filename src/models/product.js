@@ -1,9 +1,11 @@
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes, Sequelize, Model } = require('sequelize');
 const sequelize = require('../database');
 const { v4: uuidv4 } = require('uuid');
 const { UUIDV4 } = require('sequelize/lib/data-types');
 
-const Product = sequelize.define('Product', 
+class Product extends Model {}
+
+Product.init( 
     {
         productId: {
             type: DataTypes.UUID,
@@ -19,6 +21,9 @@ const Product = sequelize.define('Product',
             type: DataTypes.FLOAT,
             allowNull: false,
         },
+    }, 
+    {
+        sequelize
     }
 );
 

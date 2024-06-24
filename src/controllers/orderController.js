@@ -1,4 +1,4 @@
-const { Order, Item, Product, sequelize } = require('../models');
+const { Order, Item, Product } = require('../models');
 
 const createOrder = async (req, res, next) => {
   let transaction;
@@ -7,7 +7,7 @@ const createOrder = async (req, res, next) => {
 
     const { numeroPedido, valorTotal, dataCriacao, items } = req.body;
 
-    const order = await order.create({
+    const order = await Order.create({
       orderId: numeroPedido,
       value: valorTotal,
       creationDate: dataCriacao,
@@ -35,7 +35,7 @@ const createOrder = async (req, res, next) => {
 const getOrder = async (req, res, next) => {
   try {
     const orderId = req.params.orderId;
-    const order = await order.findOne({
+    const order = await Order.findOne({
       where: { orderId },
       include: {
         model: item,
@@ -56,10 +56,9 @@ const getOrder = async (req, res, next) => {
 const getAllOrders = async (req, res, next) => {
   try {
     const orders = await Order.findAll({
-      include: {
-        model: Item,
-        include: [Product]
-      },
+      include: [{
+        model: Item
+      }]
     });
     res.json(orders);
   } catch (err) {

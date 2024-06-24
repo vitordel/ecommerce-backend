@@ -1,25 +1,28 @@
-const { DataTypes, Sequelize } = require('sequelize');
+const { DataTypes, Sequelize, Model } = require('sequelize');
 const sequelize = require('../database');
 
 const Order = require('./order');
 const Product = require('./product');
 
+class Item extends Model {}
 
-const Item = sequelize.define('Item', 
+Item.init( 
     {
         orderId: {
             type: DataTypes.UUID,
             allowNull: false,
+            primaryKey: true,
             references: {
-                model: 'Orders',
+                model: 'order',
                 key: 'orderId',
             },
         },
         productId: {
             type: DataTypes.UUID,
             allowNull: false,
+            primaryKey: true,
             references: {
-                model: 'Products',
+                model: 'product',
                 key: 'productId',
             },
         },
@@ -32,13 +35,11 @@ const Item = sequelize.define('Item',
             allowNull: false,
         },
     }, {
-    indexes: [
-      {
-        unique: true,
-        fields: ['orderId', 'productId']
-      }
-    ]
-});
+        sequelize,
+        modelName: 'item',
+        tableName: 'items',
+    },
+);
 
 Order.hasMany(Item, { foreignKey: 'orderId' });
 Item.belongsTo(Order, { foreignKey: 'orderId' });
