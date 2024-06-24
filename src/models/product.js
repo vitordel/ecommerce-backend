@@ -7,7 +7,7 @@ class Product extends Model {}
 
 Product.init( 
     {
-        productId: {
+        id: {
             type: DataTypes.UUID,
             defaultValue: UUIDV4,
             primaryKey: true,
@@ -23,7 +23,10 @@ Product.init(
         },
     }, 
     {
-        sequelize
+        sequelize,
+        modelName: 'product',
+        tableName: 'products',
+        underscored: true
     }
 );
 

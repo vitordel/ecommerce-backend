@@ -1,29 +1,31 @@
 'use strict';
 
+const { tableName } = require("../src/models/order");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Items', {
-      orderId: {
+    await queryInterface.createTable('items', {
+      order_id: {
         type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: 'Orders',
-          key: 'orderId',
+          model: {
+            tableName: 'orders'
+          },
+          key: 'id',
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
-      productId: {
+      product_id: {
         type: Sequelize.UUID,
         allowNull: false,
         primaryKey: true,
         references: {
-          model: 'Products',
-          key: 'productId',
+          model: {
+            tableName: 'products'
+          },
+          key: 'id',
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
       quantity: {
         type: Sequelize.INTEGER,
@@ -33,17 +35,28 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false,
       },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.fn('now'),
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.fn('now'),
+      },
+      deleted_at: Sequelize.DATE,
     });
 
-    await queryInterface.addIndex('Items', ['orderId', 'productId'], {
+    await queryInterface.addIndex('items', ['order_id', 'product_id'], {
       unique: true,
       name: 'unique_order_product'
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.removeIndex('Items', 'unique_order_product');
+    await queryInterface.removeIndex('items', 'unique_order_product');
 
-    await queryInterface.dropTable('Items');
+    await queryInterface.dropTable('items');
   }
 };

@@ -9,7 +9,14 @@ const sequelize = new Sequelize(
         host: config.host,
         port: config.port,
         dialect: config.dialect,
-        logging: console.log,
+        logging: false,
+        define: {
+            paranoid: true,
+            log: false,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            deletedAt: 'deleted_at',
+        }
     },
 );
 

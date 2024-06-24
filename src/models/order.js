@@ -5,7 +5,7 @@ class Order extends Model {}
 
 Order.init(
     {
-        orderId: {
+        id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
@@ -15,10 +15,6 @@ Order.init(
             type: DataTypes.FLOAT,
             allowNull: false,
         },
-        creationDate: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        }
     },
     { 
         sequelize,
